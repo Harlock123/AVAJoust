@@ -287,6 +287,31 @@ public sealed class GameplayTests : IDisposable
     }
 
     [Fact]
+    public void The_title_plays_its_tune_and_the_demonstration_has_sound()
+    {
+        var g = new GameEngine(5, new HighScoreTable(_dir));
+        var heard = new List<Sfx>();
+        g.Sound += heard.Add;
+        g.Idle(1);
+        Assert.Equal([Sfx.TitleTune], heard);
+        g.Idle((int)(60 * (GameEngine.TitleIdleSeconds + 10)));
+        Assert.Equal(GameState.Attract, g.State);
+        Assert.Contains(Sfx.WaveStart, heard);
+        Assert.Contains(Sfx.Flap, heard);
+        // Back to the title: the tune again.
+        g.ReturnToTitle();
+        heard.Clear();
+        g.Idle(1);
+        Assert.Equal([Sfx.TitleTune], heard);
+        // Silent means silent.
+        g.Silent = true;
+        g.ReturnToTitle();
+        heard.Clear();
+        g.Idle(60);
+        Assert.Empty(heard);
+    }
+
+    [Fact]
     public void Every_sound_is_there()
     {
         var folder = Path.Combine(AppContext.BaseDirectory, "Sounds");

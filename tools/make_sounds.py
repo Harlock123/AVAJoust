@@ -130,6 +130,27 @@ def main():
     write("BridgeBurns.wav", mix(tone(2.0, 700, 300, "noise", attack=0.3, release=0.4), tone(2.0, 90, 60, "saw", attack=0.3, release=0.6, gain=0.3)), 0.6)
     write("BuzzardCall.wav", cat(tone(0.12, 900, 1300, "square", release=0.6), tone(0.16, 1300, 800, "square", release=0.8)), 0.4)
 
+    # The title tune: a galloping, heraldic theme in D minor (new), 16 bars, loops.
+    write("TitleTune.wav", tune(132,
+        [("D5", 1), ("A4", 0.5), ("D5", 0.5), ("F5", 1), ("E5", 0.5), ("D5", 0.5),
+         ("C5", 1), ("A4", 1), ("D5", 2),
+         ("F5", 1), ("G5", 0.5), ("A5", 0.5), ("Bb5", 1), ("A5", 0.5), ("G5", 0.5),
+         ("A5", 2), ("-", 1), ("A4", 1),
+         ("D5", 1), ("A4", 0.5), ("D5", 0.5), ("F5", 1), ("E5", 0.5), ("D5", 0.5),
+         ("C5", 1), ("E5", 1), ("G5", 2),
+         ("F5", 1), ("E5", 0.5), ("D5", 0.5), ("C#5", 1), ("E5", 1),
+         ("D5", 3), ("-", 1),
+         ("A5", 1), ("F5", 0.5), ("A5", 0.5), ("D6", 2),
+         ("C6", 1), ("Bb5", 0.5), ("A5", 0.5), ("G5", 2),
+         ("F5", 1), ("G5", 0.5), ("A5", 0.5), ("Bb5", 1), ("G5", 1),
+         ("A5", 3), ("-", 1),
+         ("D6", 1), ("C6", 0.5), ("Bb5", 0.5), ("A5", 1), ("G5", 1),
+         ("F5", 1), ("E5", 0.5), ("F5", 0.5), ("G5", 2),
+         ("A5", 1), ("G5", 0.5), ("F5", 0.5), ("E5", 1), ("C#5", 1),
+         ("D5", 4)],
+        [(n, 1) for bar in ["D3", "C3", "D3", "A2", "D3", "C3", "A2", "D3",
+                            "D3", "C3", "Bb2", "A2", "Bb2", "C3", "A2", "D3"]
+         for n in [bar, bar.replace("3", "4") if "3" in bar else bar.replace("2", "3"), bar, bar.replace("3", "4") if "3" in bar else bar.replace("2", "3")]]), 0.6)
     # A new wave: a bold fanfare (new; in G).
     write("WaveStart.wav", tune(160,
         [("G4", 0.5), ("B4", 0.5), ("D5", 0.5), ("G5", 1.5), ("F#5", 0.5), ("E5", 0.5), ("D5", 1), ("-", 1)],

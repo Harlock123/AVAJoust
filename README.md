@@ -28,10 +28,12 @@ Two players can fly at once, as partners or as rivals.
 - **Two players at once**, each with their own score and riders. Unseat your partner for the
   **gladiator's prize** of 3,000.
 - **Five riders** each, and another every 20,000 points.
-- **Attract mode**: leave the title alone for 15 seconds and a computer knight plays a demonstration.
+- **Attract mode**: leave the title alone for 15 seconds and a computer knight plays a demonstration,
+  with all its sounds.
 - **Top-ten high-score table** with arcade-style initials entry, for each player in turn.
 - **Synthesised sound**, mixed by OpenAL: wing beats, skids, the clang of level lances, eggs, the
-  pterodactyl's screech, the lava's sizzle, and short original tunes for each wave and the game over.
+  pterodactyl's screech, the lava's sizzle, a galloping title tune, and short original tunes for each
+  wave and the game over.
 - **Keyboard or gamepads** (one each). **Any window size**: the screen scales to fit, letterboxed.
   **Ctrl+S** saves a screenshot.
 - **One self-contained executable** per platform: Windows, macOS and Linux on Intel/AMD and ARM.

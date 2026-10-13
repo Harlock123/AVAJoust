@@ -4,7 +4,7 @@ namespace AVAJoust.Engine;
 
 /// <summary>
 /// Plays the game's sounds through OpenAL Soft, which mixes as many at once as the game needs. The
-/// wave tunes play on the music channel. In a
+/// title tune and the wave tunes play on the music channel. In a
 /// virtual machine a larger mixing buffer keeps the sound from breaking up.
 /// </summary>
 public sealed class SoundManager : IDisposable
@@ -40,6 +40,7 @@ public sealed class SoundManager : IDisposable
         if (_muted) return;
         switch (sfx)
         {
+            case Sfx.TitleTune: _engine.PlayMusic(Path.Combine(_folder, "TitleTune.wav"), loop: true); return;
             case Sfx.WaveStart: _engine.PlayMusic(Path.Combine(_folder, "WaveStart.wav"), loop: false); return;
             case Sfx.GameOver: _engine.PlayMusic(Path.Combine(_folder, "GameOver.wav"), loop: false); return;
             case Sfx.Bonus: _engine.PlayMusic(Path.Combine(_folder, "Bonus.wav"), loop: false); return;

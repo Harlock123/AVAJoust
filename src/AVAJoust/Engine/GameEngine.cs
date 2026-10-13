@@ -8,7 +8,7 @@ public enum GameState { Title, Attract, Playing, Paused, GameOver, EnterInitials
 public enum Sfx
 {
     Flap, Skid, Bounce, Unseat, PlayerDie, Egg, Hatch, Materialize, Screech, PteroDie, Sizzle, Grab,
-    WaveStart, Bonus, ExtraLife, GameOver, BridgeBurns, BuzzardCall,
+    WaveStart, Bonus, ExtraLife, GameOver, BridgeBurns, BuzzardCall, TitleTune,
 }
 
 /// <summary>
@@ -77,10 +77,14 @@ public sealed partial class GameEngine
 
     public IReadOnlyList<Ledge> Ledges => [.. Arena.Floating, .. Arena.Ground(BridgesStanding)];
 
+    // The demonstration plays its sounds too, like a game; only Silent turns everything off.
     private void Play(Sfx s)
     {
-        if (!Silent && State != GameState.Attract) Sound?.Invoke(s);
+        if (!Silent) Sound?.Invoke(s);
     }
+
+    /// <summary>The title tune starts on the first step on the title screen (once the host is listening).</summary>
+    private bool _titleTunePending = true;
 
     public void Update(double dt, Controls p1, Controls p2, bool start1, bool start2)
     {
@@ -104,6 +108,11 @@ public sealed partial class GameEngine
         switch (State)
         {
             case GameState.Title:
+                if (_titleTunePending)
+                {
+                    _titleTunePending = false;
+                    Play(Sfx.TitleTune);
+                }
                 if (startPressed || (p1.Flap && StateTime > 0.5)) StartGame(start2 ? 2 : 1);
                 else if (StateTime > TitleIdleSeconds) StartAttract();
                 break;
@@ -177,6 +186,7 @@ public sealed partial class GameEngine
     {
         State = GameState.Title;
         StateTime = 0;
+        _titleTunePending = true;
         Pilot = null;
         Enemies.Clear();
         Eggs.Clear();
