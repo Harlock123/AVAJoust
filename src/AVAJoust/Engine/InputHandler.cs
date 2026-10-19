@@ -9,10 +9,26 @@ namespace AVAJoust.Engine;
 public sealed class InputHandler : IDisposable
 {
     private readonly HashSet<Key> _pressed = [];
+    private readonly Dictionary<PhysicalKey, Key> _pressedAs = [];
     private readonly ControllerManager[] _pads = [new(0), new(1)];
 
-    public void OnKeyDown(Key key) => _pressed.Add(key);
-    public void OnKeyUp(Key key) => _pressed.Remove(key);
+    public void OnKeyDown(Key key, PhysicalKey physical = PhysicalKey.None)
+    {
+        if (physical != PhysicalKey.None)
+        {
+            if (_pressedAs.TryGetValue(physical, out var was) && was != key) _pressed.Remove(was);
+            _pressedAs[physical] = key;
+        }
+        _pressed.Add(key);
+    }
+    /// <summary>A key comes up. The key it went down as is let go too: with the keyboard option
+    /// shift:both_capslock_cancel, letting go of a Shift arrives as CapsLock, and the Shift would stay held.</summary>
+    public void OnKeyUp(Key key, PhysicalKey physical = PhysicalKey.None)
+    {
+        _pressed.Remove(key);
+        if (physical != PhysicalKey.None && _pressedAs.Remove(physical, out var was)) _pressed.Remove(was);
+    }
+
     public bool Has(Key key) => _pressed.Contains(key);
 
     public void Update()
